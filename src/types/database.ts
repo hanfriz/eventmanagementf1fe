@@ -1,6 +1,60 @@
-import { Event, User, Promotion, Registration, Review } from "@prisma/client";
+// Local type definitions for frontend (do not import from @prisma/client)
 
-// Extend Prisma types with computed fields
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  startTime?: string;
+  endTime?: string;
+  price: number;
+  totalSeats: number;
+  image?: string;
+  tags?: string[];
+  organizerId: string;
+  status?: "UPCOMING" | "ACTIVE" | "ENDED" | "CANCELLED";
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  profilePicture?: string;
+}
+
+export interface Promotion {
+  id: string;
+  code: string;
+  discountPercent: number;
+  validUntil: string;
+  maxUses?: number;
+  minPurchase?: number;
+  eventId?: string;
+}
+
+export interface Registration {
+  id: string;
+  userId: string;
+  eventId: string;
+  paymentMethod?: string;
+  createdAt?: string;
+}
+
+export interface Review {
+  id: string;
+  eventId: string;
+  userId: string;
+  rating: number;
+  comment?: string;
+  createdAt?: string;
+}
+
 export interface EventWithDetails extends Event {
   organizer: Pick<User, "id" | "name" | "email" | "phone">;
   promotion?: Promotion | null;
@@ -31,7 +85,6 @@ export interface RegistrationWithDetails extends Registration {
   >;
 }
 
-// API Response types
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -40,7 +93,6 @@ export interface ApiResponse<T> {
   count?: number;
 }
 
-// Filter types
 export interface EventFiltersParams {
   category?: string;
   location?: string;
